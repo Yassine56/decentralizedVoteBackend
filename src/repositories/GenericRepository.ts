@@ -8,33 +8,27 @@ export default class GenericRepository<T extends BaseEntity> implements IGeneric
 
   public async create(entity: T): Promise<T> {
     try {
-      const [instance] = await db(this._tableName)
-        .returning("*")
-        .insert(entity);
+      const [instance] = await db(this._tableName).returning("*").insert(entity);
       return instance;
     } catch (err) {
+      console.log("instance", err);
       throw new DatabaseError();
     }
   }
 
   public async update(id: number, update: Partial<T>): Promise<T> {
     try {
-      const [instance] = await db(this._tableName)
-        .returning("*")
-        .where({ id })
-        .update(update);
+      const [instance] = await db(this._tableName).returning("*").where({ id }).update(update);
       return instance;
     } catch (err) {
+      console.log("error", err);
       throw new DatabaseError();
     }
   }
 
   public async updateByQuery(query: Partial<T>, update: Partial<T>): Promise<T[]> {
     try {
-      const [instances] = await db(this._tableName)
-        .returning("*")
-        .where(query)
-        .update(update);
+      const [instances] = await db(this._tableName).returning("*").where(query).update(update);
       return instances;
     } catch (err) {
       throw new DatabaseError();
@@ -43,10 +37,7 @@ export default class GenericRepository<T extends BaseEntity> implements IGeneric
 
   public async findById(id: number, selectedFields: string[] = []): Promise<T> {
     try {
-      const [instance] = await db(this._tableName)
-        .returning("*")
-        .select(selectedFields)
-        .where({ id });
+      const [instance] = await db(this._tableName).returning("*").select(selectedFields).where({ id });
       return instance ? instance : {};
     } catch (err) {
       throw new DatabaseError();
@@ -55,10 +46,7 @@ export default class GenericRepository<T extends BaseEntity> implements IGeneric
 
   public async find(query: Partial<T>, selectedFields: string[] = []): Promise<T[]> {
     try {
-      const instances = await db(this._tableName)
-        .returning("*")
-        .select(selectedFields)
-        .where(query);
+      const instances = await db(this._tableName).returning("*").select(selectedFields).where(query);
       return instances;
     } catch (err) {
       throw new DatabaseError();
@@ -67,10 +55,7 @@ export default class GenericRepository<T extends BaseEntity> implements IGeneric
 
   public async removeById(id: number): Promise<T> {
     try {
-      const [instance] = await db(this._tableName)
-        .returning("*")
-        .where({ id })
-        .del();
+      const [instance] = await db(this._tableName).returning("*").where({ id }).del();
       return instance;
     } catch (err) {
       throw new DatabaseError();

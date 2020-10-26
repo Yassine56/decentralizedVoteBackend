@@ -8,26 +8,21 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
   try {
     await db.raw(`
-        CREATE TABLE IF NOT EXISTS users  (
-          id serial PRIMARY KEY,
-          email TEXT,
-          password TEXT,
-          phone_number TEXT,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-          CONSTRAINT UC_User UNIQUE (email)
-        );
-        CREATE TABLE IF NOT EXISTS events  (
-            id serial PRIMARY KEY,
-            type TEXT,
-            user_id TEXT,
-            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-          );
+    CREATE TABLE compaigns (
+      id serial NOT NULL PRIMARY KEY,
+      options jsonb,
+      title TEXT,
+      organizer TEXT,
+      description TEXT,
+      rounds TEXT
+    );
       `);
     return res.status(200).json({
       success: true,
-      response: "TABLES CREATED"
+      response: "TABLES CREATED",
     });
   } catch (err) {
+    console.log("error", err);
     throw new DatabaseError();
   }
 });

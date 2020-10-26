@@ -1,6 +1,6 @@
-import IGenericRepository from '../repositories/IGenericRepository';
-import { AppError } from '../errors/general.errors';
-import BaseEntity from '../models/BaseEntity';
+import IGenericRepository from "../repositories/IGenericRepository";
+import { AppError } from "../errors/general.errors";
+import BaseEntity from "../models/BaseEntity";
 
 export default abstract class GenericModule<T extends BaseEntity> {
   protected readonly _repository: IGenericRepository<T>;
@@ -35,8 +35,9 @@ export default abstract class GenericModule<T extends BaseEntity> {
 
   async add(instance: T): Promise<T> {
     const addedInstance = await this._repository.create(instance);
+    console.log("addedInstance", addedInstance);
     if (!addedInstance) {
-      throw new AppError('Unable to add for unknown reason.');
+      throw new AppError("Unable to add for unknown reason.");
     }
 
     return addedInstance;

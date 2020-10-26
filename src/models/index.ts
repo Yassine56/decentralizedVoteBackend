@@ -1,4 +1,3 @@
-import User from './users/User';
-import Event from './events/Event';
+import Compaign from "./compaigns/Compaign";
 
-export { User, Event };
+export { Compaign };
